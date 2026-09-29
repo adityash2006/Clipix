@@ -4,8 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Clipix</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/main.js" defer></script>
 </head>
 <body>
-    
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="./index.html" aria-label="Clipix home">Clipix</a>
+      <nav class="tabs" aria-label="Main navigation">
+        <button class="tab is-active" type="button">Compress</button>
+        <button class="tab" type="button" disabled>Remove BG</button>
+        <button class="tab" type="button" disabled>History</button>
+      </nav>
+    </header>
+
+    <section class="workspace" aria-labelledby="page-title">
+      <div class="intro">
+        <p class="eyebrow">Private image tools</p>
+        <h1 id="page-title">Make every image lighter.</h1>
+        <p class="lede">Compress images in your browser. Your files stay on this device.</p>
+      </div>
+
+      <form id="upload-form" class="upload-card">
+        <label class="dropzone" id="dropzone" for="pic">
+          <span class="drop-icon" aria-hidden="true">↥</span>
+          <span class="drop-title">Drop an image here</span>
+          <span class="drop-hint">or <span class="browse-link">browse your files</span> · JPG, PNG, WebP</span>
+          <input type="file" id="pic" name="pic" accept="image/jpeg,image/png,image/webp" />
+        </label>
+      </form>
+
+      <section class="result-panel" id="result-panel" aria-live="polite" aria-busy="false">
+        <div class="result-heading">
+          <div>
+            <p class="eyebrow">Output</p>
+            <h2 id="result-title">Your compressed image will appear here</h2>
+          </div>
+          <span class="status-pill" id="status-pill">Waiting</span>
+        </div>
+        <div class="preview-frame" id="preview-frame">
+          <div class="empty-preview" id="empty-preview">
+            <span class="empty-mark" aria-hidden="true">✦</span>
+            <span>Select an image to get started</span>
+          </div>
+          <img id="result-image" alt="Compressed image preview" hidden />
+        </div>
+        <div class="result-meta" id="result-meta" hidden>
+          <span id="file-name"></span>
+          <span id="original-size"></span>
+          <span id="file-size"></span>
+          <a class="download-button" id="download-link" download>Download <span aria-hidden="true">↓</span></a>
+        </div>
+      </section>
+    </section>
+  </main>
 </body>
 </html>
