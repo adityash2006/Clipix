@@ -2,6 +2,9 @@ const compressor = new Worker('../js/workers/compressor.js');
 const input = document.getElementById('pic');
 const dropzone = document.getElementById('dropzone');
 const resultPanel = document.getElementById('result-panel');
+const controlsCard = document.getElementById('controls-card');
+const qualitySlider = document.getElementById('quality-slider');
+const widthSlider = document.getElementById('width-slider');
 const resultImage = document.getElementById('result-image');
 const emptyPreview = document.getElementById('empty-preview');
 const resultMeta = document.getElementById('result-meta');
@@ -12,6 +15,8 @@ const originalSize = document.getElementById('original-size');
 const fileSize = document.getElementById('file-size');
 const downloadLink = document.getElementById('download-link');
 let resultUrl;
+let selectedFile;
+let requestId = 0;
 
 function formatBytes(bytes) {
     if (bytes < 1024) return `${bytes} B`;
@@ -24,6 +29,23 @@ function setStatus(label, state = '') {
     statusPill.className = `status-pill${state ? ` is-${state}` : ''}`;
 }
 
+function compressSelectedFile() {
+    const currentRequest = ++requestId;
+    resultPanel.setAttribute('aria-busy', 'true');
+    setStatus('Working', 'processing');
+    resultTitle.textContent = `Compressing ${selectedFile.name}`;
+    resultMeta.hidden = true;
+    resultImage.hidden = true;
+    emptyPreview.hidden = false;
+    compressor.postMessage({
+        file: selectedFile,
+        quality: Number(qualitySlider.value),
+        maxWidth: Number(widthSlider.value),
+        outputFormat: 'jpeg',
+        requestId: currentRequest
+    });
+}
+
 function processFile(file) {
     if (!file || !file.type.startsWith('image/')) {
         setStatus('Choose an image', 'error');
@@ -31,17 +53,21 @@ function processFile(file) {
         return;
     }
 
-    resultPanel.setAttribute('aria-busy', 'true');
-    setStatus('Working', 'processing');
-    resultTitle.textContent = `Compressing ${file.name}`;
-    resultMeta.hidden = true;
-    resultImage.hidden = true;
-    emptyPreview.hidden = false;
+    selectedFile = file;
+    controlsCard.hidden = false;
+    qualitySlider.value = '0.7';
+    widthSlider.value = '1920';
     originalSize.textContent = `Original: ${formatBytes(file.size)}`;
-    compressor.postMessage({ file, quality: 0.72, maxWidth: 1600, outputFormat: 'jpeg' });
+    compressSelectedFile();
 }
 
 input.addEventListener('change', () => processFile(input.files[0]));
+qualitySlider.addEventListener('input', () => {
+    if (selectedFile) compressSelectedFile();
+});
+widthSlider.addEventListener('input', () => {
+    if (selectedFile) compressSelectedFile();
+});
 
 ['dragenter', 'dragover'].forEach((eventName) => {
     dropzone.addEventListener(eventName, (event) => {
@@ -60,7 +86,8 @@ input.addEventListener('change', () => processFile(input.files[0]));
 dropzone.addEventListener('drop', (event) => processFile(event.dataTransfer.files[0]));
 
 compressor.onmessage = (event) => {
-    const { blob, error } = event.data;
+    const { blob, error, requestId: responseRequestId } = event.data;
+    if (responseRequestId !== requestId) return;
     resultPanel.setAttribute('aria-busy', 'false');
 
     if (error) {
