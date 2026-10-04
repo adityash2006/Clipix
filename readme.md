@@ -57,6 +57,7 @@ Clipiz is a static web app that runs entirely in the browser. Heavy work is move
 - Target-size mode: find the highest quality that stays under a user-defined size limit.
 - Show original size, new size, and percentage saved.
 - Batch queue with per-file status, overall progress, and "Download all".
+- Single-image mode exposes quality, width, and format controls; batch mode uses quality 0.7, a maximum width of 1920px, and processes up to four files concurrently.
 
 **Background Removal**
 - Lazy-load the model only on first use, with a download progress indicator.
@@ -118,6 +119,5 @@ A single worker handles one job at a time, so a batch would leave CPU cores idle
 - **Worker slots:** each worker is tracked as idle or busy.
 
 With 20 images and 4 workers, 4 run concurrently while 16 wait in the queue. When a worker finishes, it immediately takes the next job. Errors are isolated per job.
-
 
 

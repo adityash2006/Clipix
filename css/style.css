@@ -89,6 +89,10 @@ h1 { font-size: clamp(2.25rem, 6vw, 4.8rem); line-height: 0.98; }
 }
 
 .upload-card { padding: 12px; }
+.mode-switch { display: inline-flex; gap: 4px; margin-bottom: 12px; padding: 4px; border: 1px solid var(--line); border-radius: 999px; background: #f7f1eb; }
+.mode-button { border: 0; border-radius: 999px; padding: 9px 14px; color: var(--muted); background: transparent; cursor: pointer; font-size: 0.85rem; font-weight: 700; }
+.mode-button.is-active { color: var(--ink); background: var(--butter); }
+.batch-note { margin: 12px 4px 2px; color: var(--muted); font-size: 0.78rem; }
 
 .controls-card {
 	margin-top: 18px;
@@ -138,7 +142,17 @@ h1 { font-size: clamp(2.25rem, 6vw, 4.8rem); line-height: 0.98; }
 .browse-link { color: var(--teal); font-weight: 700; }
 
 .result-panel { margin-top: 28px; padding: clamp(20px, 4vw, 32px); }
+.batch-panel { margin-top: 28px; padding: clamp(20px, 4vw, 32px); border: 1px solid var(--line); border-radius: 20px; background: var(--panel); box-shadow: var(--shadow); }
+.batch-list { display: grid; gap: 10px; }
+.batch-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 14px; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: #fffdf9; }
+.batch-file { display: grid; min-width: 0; gap: 4px; }
+.batch-file strong { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.batch-file-size, .batch-row-status { color: var(--muted); font-size: 0.78rem; }
+.batch-row-status.is-ready { color: var(--teal); font-weight: 700; }
+.batch-row-status.is-error { color: #bd5546; font-weight: 700; }
+.batch-download { margin-left: 0; padding: 7px 11px; font-size: 0.78rem; }
 .result-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+.batch-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; justify-content: flex-end; }
 h2 { max-width: 520px; font-size: clamp(1.2rem, 3vw, 1.65rem); }
 .status-pill { flex: 0 0 auto; border-radius: 999px; padding: 7px 10px; color: #6b625b; background: #f4eee8; font-size: 0.75rem; font-weight: 700; }
 .status-pill.is-processing { color: #8a6610; background: var(--butter); }
@@ -153,6 +167,7 @@ h2 { max-width: 520px; font-size: clamp(1.2rem, 3vw, 1.65rem); }
 #original-size { color: var(--muted); }
 #file-size { color: var(--teal); font-weight: 700; }
 .download-button { margin-left: auto; border-radius: 999px; padding: 10px 15px; color: #fff; background: var(--ink); font-weight: 700; text-decoration: none; }
+.batch-download-all { margin-left: 0; border: 0; cursor: pointer; }
 .download-button:hover { background: var(--teal); }
 
 @media (max-width: 620px) {
@@ -162,8 +177,11 @@ h2 { max-width: 520px; font-size: clamp(1.2rem, 3vw, 1.65rem); }
 	.workspace { width: min(100% - 28px, 920px); padding-top: 48px; }
 	.dropzone { min-height: 190px; }
 	.result-heading { flex-direction: column; }
+	.batch-actions { justify-content: flex-start; }
 	.controls-heading { flex-direction: column; gap: 4px; }
 	.control-grid { grid-template-columns: 1fr; gap: 20px; }
 	.result-meta { align-items: flex-start; flex-wrap: wrap; }
 	.download-button { width: 100%; margin-left: 0; text-align: center; }
+	.batch-row { grid-template-columns: 1fr auto; }
+	.batch-download { grid-column: 1 / -1; }
 }
