@@ -14,6 +14,8 @@ const fileName = document.getElementById('file-name');
 const originalSize = document.getElementById('original-size');
 const fileSize = document.getElementById('file-size');
 const downloadLink = document.getElementById('download-link');
+const inp = document.getElementById("outputFormat");
+
 let resultUrl;
 let selectedFile;
 let requestId = 0;
@@ -41,7 +43,7 @@ function compressSelectedFile() {
         file: selectedFile,
         quality: Number(qualitySlider.value),
         maxWidth: Number(widthSlider.value),
-        outputFormat: 'jpeg',
+        outputFormat: inp.value,
         requestId: currentRequest
     });
 }
@@ -62,7 +64,11 @@ function processFile(file) {
 }
 
 input.addEventListener('change', () => processFile(input.files[0]));
+
 qualitySlider.addEventListener('input', () => {
+    if (selectedFile) compressSelectedFile();
+});
+inp.addEventListener('change', () => {
     if (selectedFile) compressSelectedFile();
 });
 widthSlider.addEventListener('input', () => {
@@ -114,3 +120,5 @@ compressor.onerror = () => {
     setStatus('Error', 'error');
     resultTitle.textContent = 'Something went wrong while processing the image';
 };
+
+

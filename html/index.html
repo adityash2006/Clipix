@@ -60,6 +60,19 @@
             <input type="range" id="width-slider" min="320" max="3840" step="10" value="1920">
             <span class="slider-scale"><span>More compact</span><span>More detail</span></span>
           </label>
+          <label class="format-control" for="outputFormat">
+            <span class="slider-label">
+              <span>Output format</span>
+              <span class="format-badge">Default</span>
+            </span>
+            <span class="select-wrap">
+              <select name="output" id="outputFormat" aria-describedby="format-help">
+                <option value="jpeg">JPEG · Best compatibility</option>
+                <option value="webp">WebP · Smaller files</option>
+              </select>
+            </span>
+            <span class="format-help" id="format-help">WebP is usually the smallest. JPEG works everywhere.</span>
+          </label>
         </div>
       </section>
 
