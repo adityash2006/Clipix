@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remove background · Clipix</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/bgremover.js" type="module"></script>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="./index.html" aria-label="Clipix home">Clipix</a>
+      <nav class="tabs" aria-label="Main navigation">
+        <a class="tab" href="./index.html">Compress</a>
+        <a class="tab is-active" href="./bgremover.html" aria-current="page">Remove BG</a>
+        <button class="tab" type="button" disabled>History</button>
+      </nav>
+    </header>
+
+    <section class="workspace" aria-labelledby="page-title">
+      <div class="intro">
+        <p class="eyebrow">Private image tools</p>
+        <h1 id="page-title">Clear the background.</h1>
+        <p class="lede">Remove an image background in your browser. Your files stay on this device.</p>
+      </div>
+
+      <form id="upload-form" class="upload-card">
+        <label class="dropzone" id="dropzone" for="pic">
+          <span class="drop-icon" aria-hidden="true">↥</span>
+          <span class="drop-title">Drop an image here</span>
+          <span class="drop-hint">or <span class="browse-link">browse your files</span> · JPG, PNG, WebP</span>
+          <input type="file" id="pic" name="pic" accept="image/jpeg,image/png,image/webp">
+        </label>
+      </form>
+
+      <div class="progress-wrap" id="progress-wrap" hidden>
+        <p id="progress-label">Preparing model…</p>
+        <progress id="dl" max="1" value="0"></progress>
+      </div>
+      <p class="file-error" id="error-message" role="alert" hidden></p>
+
+      <section class="result-panel" id="result-panel" aria-live="polite" aria-busy="false">
+        <div class="result-heading">
+          <div>
+            <p class="eyebrow">Output</p>
+            <h2 id="result-title">Your cut-out will appear here</h2>
+          </div>
+          <span class="status-pill" id="status-pill">Waiting</span>
+        </div>
+        <div class="preview-frame bg-preview">
+          <div class="empty-preview" id="empty-preview">
+            <span class="empty-mark" aria-hidden="true">✦</span>
+            <span>Select an image to get started</span>
+          </div>
+          <div class="processing-art" id="processing-art" hidden role="status" aria-label="Processing image">
+            <div class="brush-stage" aria-hidden="true">
+              <span class="brush-glow"></span>
+              <span class="brush-stroke brush-stroke-one"></span>
+              <span class="brush-stroke brush-stroke-two"></span>
+              <span class="brush-stroke brush-stroke-three"></span>
+              <span class="floating-pencil">
+                <span class="pencil-tip"></span>
+                <span class="pencil-body"></span>
+                <span class="pencil-band"></span>
+                <span class="pencil-eraser"></span>
+              </span>
+            </div>
+            <strong>Making the cut-out</strong>
+            <span class="processing-caption" id="processing-caption">Preparing the model…</span>
+          </div>
+          <img id="result-image" alt="Background removed image preview" hidden>
+        </div>
+        <div class="result-meta" id="result-meta" hidden>
+          <span id="file-name"></span>
+          <a class="download-button" id="download-link" download>Download PNG <span aria-hidden="true">↓</span></a>
+        </div>
+      </section>
+    </section>
+  </main>
+</body>
+</html>
