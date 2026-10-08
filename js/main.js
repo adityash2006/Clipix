@@ -1,4 +1,5 @@
 import { WorkerPool } from './pool.js';
+import { saveDownload } from './history.js';
 
 const compressor = new Worker(new URL('./workers/compressor.js', import.meta.url));
 const multiplePoolSize = Math.min(navigator.hardwareConcurrency || 2, 4);
@@ -32,6 +33,7 @@ const downloadLink = document.getElementById('download-link');
 const inp = document.getElementById("outputFormat");
 
 let resultUrl;
+let resultBlob;
 let selectedFile;
 let requestId = 0;
 let batchRequestId = 0;
@@ -161,6 +163,18 @@ async function processMultipleFiles(files) {
             const download = row.querySelector('.batch-download');
             download.href = url;
             download.download = `compressed-${imageFiles[index].name.replace(/\.[^.]+$/, '')}.jpg`;
+            download.addEventListener('click', () => {
+                saveDownload({
+                    operation: 'compress',
+                    sizes: { before: imageFiles[index].size, after: result.value.blob.size },
+                    format: result.value.blob.type,
+                    result: result.value.blob
+                }).catch((error) => {
+                    status.textContent = 'Could not save download';
+                    status.className = 'batch-row-status is-error';
+                    console.error('Could not save download history:', error);
+                });
+            });
             download.hidden = false;
             status.textContent = 'Ready';
             status.className = 'batch-row-status is-ready';
@@ -240,6 +254,7 @@ compressor.onmessage = (event) => {
     }
 
     if (resultUrl) URL.revokeObjectURL(resultUrl);
+    resultBlob = blob;
     resultUrl = URL.createObjectURL(blob);
     resultImage.src = resultUrl;
     resultImage.hidden = false;
@@ -251,6 +266,20 @@ compressor.onmessage = (event) => {
     downloadLink.href = resultUrl;
     resultMeta.hidden = false;
 };
+
+downloadLink.addEventListener('click', () => {
+    if (!resultBlob || !selectedFile) return;
+    saveDownload({
+        operation: 'compress',
+        sizes: { before: selectedFile.size, after: resultBlob.size },
+        format: resultBlob.type,
+        result: resultBlob
+    }).catch((error) => {
+        setStatus('Could not save', 'error');
+        resultTitle.textContent = 'Could not save this download to history';
+        console.error('Could not save download history:', error);
+    });
+});
 
 compressor.onerror = () => {
     resultPanel.setAttribute('aria-busy', 'false');

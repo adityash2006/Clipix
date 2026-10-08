@@ -188,6 +188,21 @@ h2 { max-width: 520px; font-size: clamp(1.2rem, 3vw, 1.65rem); }
 .download-button { margin-left: auto; border-radius: 999px; padding: 10px 15px; color: #fff; background: var(--ink); font-weight: 700; text-decoration: none; }
 .batch-download-all { margin-left: 0; border: 0; cursor: pointer; }
 .download-button:hover { background: var(--teal); }
+.history-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; }
+.history-clear, .history-delete { border: 1px solid var(--line); border-radius: 999px; padding: 10px 15px; color: var(--ink); background: var(--panel); cursor: pointer; font-weight: 700; }
+.history-clear:hover, .history-delete:hover { border-color: var(--coral); color: #bd5546; }
+.history-empty { margin: 0; padding: 40px 20px; border: 1px dashed #d5c9c0; border-radius: 16px; color: var(--muted); text-align: center; }
+.history-grid { display: grid; gap: 16px; }
+.history-card { display: grid; grid-template-columns: 160px minmax(0, 1fr); gap: 20px; padding: 16px; border: 1px solid var(--line); border-radius: 16px; background: var(--panel); box-shadow: var(--shadow); }
+.history-thumb { width: 160px; height: 120px; border-radius: 10px; background: #f7f1eb; object-fit: contain; }
+.history-card-body { display: grid; align-content: center; gap: 10px; min-width: 0; }
+.history-card-heading { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.history-card h2 { font-size: 1.2rem; }
+.history-card time, .history-details { color: var(--muted); font-size: 0.82rem; }
+.history-details { margin: 0; }
+.history-actions { display: flex; align-items: center; gap: 10px; }
+.history-download { width: auto; margin-left: 0; border: 0; cursor: pointer; font-size: 0.85rem; }
+.history-delete { padding: 9px 13px; font-size: 0.85rem; }
 
 .progress-wrap {
 	margin-top: 18px;
@@ -216,6 +231,11 @@ h2 { max-width: 520px; font-size: clamp(1.2rem, 3vw, 1.65rem); }
 	.batch-actions { justify-content: flex-start; }
 	.controls-heading { flex-direction: column; gap: 4px; }
 	.control-grid { grid-template-columns: 1fr; gap: 20px; }
+	.history-heading { flex-direction: column; }
+	.history-clear { align-self: flex-start; }
+	.history-card { grid-template-columns: 1fr; }
+	.history-thumb { width: 100%; height: 180px; }
+	.history-card-heading { align-items: flex-start; flex-direction: column; gap: 4px; }
 	.result-meta { align-items: flex-start; flex-wrap: wrap; }
 	.download-button { width: 100%; margin-left: 0; text-align: center; }
 	.batch-row { grid-template-columns: 1fr auto; }

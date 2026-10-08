@@ -1,6 +1,6 @@
 const DB_NAME = 'imageToolHistory';
 const STORE = 'history';
-const MAX_ITEMS = 50;
+const MAX_ITEMS = 25;
 
 function openDB() {
   return new Promise((resolve, reject) => {

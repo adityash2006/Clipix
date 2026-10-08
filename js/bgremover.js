@@ -1,3 +1,5 @@
+import { saveDownload } from './history.js';
+
 const input = document.getElementById('pic');
 const dropzone = document.getElementById('dropzone');
 const resultPanel = document.getElementById('result-panel');
@@ -17,6 +19,8 @@ const bar = document.getElementById('dl');
 
 let bg;
 let resultUrl;
+let resultBlob;
+let sourceFile;
 let requestId = 0;
 let pencilAnimation;
 
@@ -94,6 +98,7 @@ async function loadBgModule() {
 }
 
 async function removeBackground(file) {
+    sourceFile = file;
     const currentRequest = ++requestId;
     errorMessage.hidden = true;
     resultPanel.setAttribute('aria-busy', 'true');
@@ -112,6 +117,7 @@ async function removeBackground(file) {
         if (currentRequest !== requestId) return;
 
         if (resultUrl) URL.revokeObjectURL(resultUrl);
+        resultBlob = blob;
         resultUrl = URL.createObjectURL(blob);
         resultImage.src = resultUrl;
         resultImage.hidden = false;
@@ -136,7 +142,23 @@ async function removeBackground(file) {
             resultPanel.setAttribute('aria-busy', 'false');
         }
     }
+
 }
+
+downloadLink.addEventListener('click', () => {
+    if (!resultBlob || !sourceFile) return;
+    saveDownload({
+        operation: 'remove-background',
+        sizes: { before: sourceFile.size, after: resultBlob.size },
+        format: resultBlob.type,
+        result: resultBlob
+    }).catch((error) => {
+        setStatus('Could not save', 'error');
+        errorMessage.textContent = 'Could not save this download to history.';
+        errorMessage.hidden = false;
+        console.error('Could not save download history:', error);
+    });
+});
 
 function processFile(file) {
     if (!file || !file.type.startsWith('image/')) {

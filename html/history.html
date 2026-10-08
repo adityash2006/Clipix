@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download history · Clipix</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../js/history.js" type="module"></script>
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <a class="brand" href="./index.html" aria-label="Clipix home">Clipix</a>
+      <nav class="tabs" aria-label="Main navigation">
+        <a class="tab" href="./index.html">Compress</a>
+        <a class="tab" href="./bgremover.html">Remove BG</a>
+        <a class="tab is-active" href="./history.html" aria-current="page">History</a>
+        
+      
+      </nav>
+    </header>
+
+    <section class="workspace" aria-labelledby="page-title">
+      <div class="history-heading">
+        <div class="intro">
+          <p class="eyebrow">Stored on this device</p>
+          <h1 id="page-title">Your downloads.</h1>
+          <p class="lede">Download results again or remove them from your local history.</p>
+        </div>
+        <button class="history-clear" id="clear-history" type="button">Clear history</button>
+      </div>
+      <p class="file-error" id="history-error" role="alert" hidden></p>
+      <p class="history-empty" id="history-empty" hidden>No downloads yet. Process and download an image to see it here.</p>
+      <section class="history-grid" id="history-grid" aria-label="Previous downloads"></section>
+    </section>
+  </main>
+</body>
+</html>
