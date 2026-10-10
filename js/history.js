@@ -51,6 +51,7 @@ async function renderHistory() {
         <p class="history-details"></p>
         <div class="history-actions">
           <button class="download-button history-download" type="button">Download again</button>
+          <button class="history-compressor" type="button">Open in compressor</button>
           <button class="history-delete" type="button">Delete</button>
         </div>
       </div>
@@ -64,12 +65,17 @@ async function renderHistory() {
     card.querySelector('.history-details').textContent =
       `${item.format} · ${formatBytes(item.sizes.before)} → ${formatBytes(item.sizes.after)}`;
     card.querySelector('.history-download').addEventListener('click', () => download(item));
+    card.querySelector('.history-compressor').addEventListener('click', () => openInCompressor(item));
     card.querySelector('.history-delete').addEventListener('click', async () => {
       await deleteItem(item.id);
       await renderHistory();
     });
     grid.append(card);
   }
+}
+
+function openInCompressor(item) {
+  window.open(`./index.html?from=${encodeURIComponent(item.id)}`, '_blank');
 }
 
 function download(item) {

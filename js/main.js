@@ -1,5 +1,6 @@
 import { WorkerPool } from './pool.js';
 import { saveDownload } from './history.js';
+import { getItem } from './db/db.js';
 
 const compressor = new Worker(new URL('./workers/compressor.js', import.meta.url));
 const multiplePoolSize = Math.min(navigator.hardwareConcurrency || 2, 4);
@@ -286,3 +287,29 @@ compressor.onerror = () => {
     setStatus('Error', 'error');
     resultTitle.textContent = 'Something went wrong while processing the image';
 };
+
+async function loadImageIntoCompressor(blob, id) {
+    const extension = blob.type.split('/')[1] || 'img';
+    processFile(new File([blob], `history-${id}.${extension}`, { type: blob.type }));
+}
+
+async function loadFromHistory() {
+    const fromId = Number(new URLSearchParams(location.search).get('from'));
+    if (!fromId) return;
+
+    try {
+        const item = await getItem(fromId);
+        if (item) {
+            await loadImageIntoCompressor(item.result, item.id);
+        } else {
+            setStatus('Not found', 'error');
+            resultTitle.textContent = 'That image is no longer in history';
+        }
+    } catch (error) {
+        setStatus('Could not load', 'error');
+        resultTitle.textContent = 'Could not load that history item';
+        console.error('Could not load image from history:', error);
+    }
+}
+
+loadFromHistory();

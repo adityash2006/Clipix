@@ -40,6 +40,10 @@ export function getAll() {
   return run('readonly', store => store.getAll());
 }
 
+export function getItem(id) {
+  return run('readonly', store => store.get(id));
+}
+
 export function deleteItem(id) {
   return run('readwrite', store => store.delete(id));
 }
